@@ -1,9 +1,9 @@
-import { Formik, useField } from 'formik';
+import { Formik } from 'formik';
 import React from 'react';
 import { Button, TouchableWithoutFeedback, View } from 'react-native';
+import * as yup from 'yup';
 import styled from 'styled-components/native';
 import FormikTextInput from './FormikTestInput';
-import Text from './Text';
 
 const initialValues = {
   username: '',
@@ -18,12 +18,23 @@ const StyledView = styled(View)`
 `;
 
 const StyledFormikInputField = styled(FormikTextInput)`
-  border: 1px black solid;
+  /* border: 1px black solid; */
   min-height: 50px;
   padding: 20px;
   border-radius: 5px;
   margin: 15px 0;
 `;
+
+const validationSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(3, 'Username length must be greater than 3')
+    .required(),
+  password: yup
+    .string()
+    .min(3, 'Password length must be greater than 3')
+    .required(),
+});
 
 const SignInForm = ({ onSubmit }) => {
   return (
@@ -34,7 +45,7 @@ const SignInForm = ({ onSubmit }) => {
         placeholder='password'
         secureTextEntry
       />
-      <TouchableWithoutFeedback onPress={() => onsubmit}>
+      <TouchableWithoutFeedback onPress={onSubmit}>
         <Button title='Sign in' style={{ borderRadius: '5px' }} />
       </TouchableWithoutFeedback>
     </StyledView>
@@ -47,7 +58,11 @@ const SignIn = () => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
       {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
     </Formik>
   );

@@ -1,15 +1,19 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { useField } from 'formik';
 
 import TextInput from './TextInput';
 import Text from './Text';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  errorText: {
-    marginTop: 5,
-  },
-});
+const StyledErrorText = styled(Text)`
+  margin: 5px 0;
+  color: #d73a4a;
+`;
+
+const StyledTextInput = styled(TextInput)`
+  border: 1px solid;
+  border-color: ${(props) => props.error && '#d73a4a'};
+`;
 
 const FormikTextInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name);
@@ -17,14 +21,14 @@ const FormikTextInput = ({ name, ...props }) => {
 
   return (
     <>
-      <TextInput
+      <StyledTextInput
         onChangeText={(value) => helpers.setValue(value)}
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
         error={showError}
         {...props}
       />
-      {showError && <Text style={styles.errorText}>{meta.error}</Text>}
+      {showError && <StyledErrorText>{meta.error}</StyledErrorText>}
     </>
   );
 };
