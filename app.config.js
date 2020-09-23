@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export default {
   expo: {
     name: 'rate-repository-app',
@@ -21,7 +23,8 @@ export default {
       favicon: './assets/favicon.png',
     },
     extra: {
-      // env: postMessage.env.ENV,
+      env: process.env.ENV,
+      apolloUrl: 'http://192.168.43.122:5000/graphql',
     },
   },
 };
