@@ -4,6 +4,7 @@ import { Button, TouchableWithoutFeedback, View } from 'react-native';
 import * as yup from 'yup';
 import styled from 'styled-components/native';
 import FormikTextInput from './FormikTestInput';
+import useSignIn from '../hooks/useSignIn';
 
 const initialValues = {
   username: '',
@@ -18,7 +19,6 @@ const StyledView = styled(View)`
 `;
 
 const StyledFormikInputField = styled(FormikTextInput)`
-  /* border: 1px black solid; */
   min-height: 50px;
   padding: 20px;
   border-radius: 5px;
@@ -45,16 +45,29 @@ const SignInForm = ({ onSubmit }) => {
         placeholder='password'
         secureTextEntry
       />
-      <TouchableWithoutFeedback onPress={onSubmit}>
-        <Button title='Sign in' style={{ borderRadius: '5px' }} />
+      <TouchableWithoutFeedback>
+        <Button
+          title='Sign in'
+          onPress={onSubmit}
+          style={{ borderRadius: '5px' }}
+        />
       </TouchableWithoutFeedback>
     </StyledView>
   );
 };
 
 const SignIn = () => {
-  const onSubmit = () => {
-    console.log('signed in');
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

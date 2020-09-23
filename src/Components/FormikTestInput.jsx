@@ -12,7 +12,7 @@ const StyledErrorText = styled(Text)`
 
 const StyledTextInput = styled(TextInput)`
   border: 1px solid;
-  border-color: ${(props) => props.error && '#d73a4a'};
+  border-color: ${(props) => (props.error ? '#d73a4a' : 'black')};
 `;
 
 const FormikTextInput = ({ name, ...props }) => {
