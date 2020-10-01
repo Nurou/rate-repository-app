@@ -21,7 +21,7 @@ const useSignIn = () => {
 
     await authStorage.setAccessToken(accessToken);
     history.push('/');
-    client.clearStore();
+    client.resetStore();
     return result;
   };
   return [signIn, result];

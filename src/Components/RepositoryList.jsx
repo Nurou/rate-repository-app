@@ -26,6 +26,10 @@ const RepositoryList = () => {
     ? repositories.edges.map((edge) => edge.node)
     : [];
 
+  if (!repositories) {
+    return <span>Loading...</span>;
+  }
+
   return (
     <StyledList
       data={repositoryNodes}
