@@ -1,7 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
 import styled from 'styled-components/native';
-import theme from '../theme';
 import { Text as ThemeText } from './Text';
 
 const StyledAvatar = styled.Image`
@@ -70,32 +68,34 @@ const RepositoryItem = ({ repository }) => {
       <InfoContainerWrapper>
         <StyledAvatar source={{ uri: ownerAvatarUrl }} />
         <TextualInfo>
-          <RepoName>{repository.fullName}</RepoName>
-          <Description>{repository.description}</Description>
-          <Language>{repository.language}</Language>
+          <RepoName testID='repoName'>{repository.fullName}</RepoName>
+          <Description testID='repoDescription'>
+            {repository.description}
+          </Description>
+          <Language testID='repoLanguage'>{repository.language}</Language>
         </TextualInfo>
       </InfoContainerWrapper>
       <Stats>
         <SingleStat>
-          <ThemeText fontWeight='bold'>
+          <ThemeText testID='repoStars' fontWeight='bold'>
             {thousandize(repository.stargazersCount)}
           </ThemeText>
           <ThemeText color='textSecondary'>Stars</ThemeText>
         </SingleStat>
         <SingleStat>
-          <ThemeText fontWeight='bold'>
+          <ThemeText testID='repoForks' fontWeight='bold'>
             {thousandize(repository.forksCount)}
           </ThemeText>
           <ThemeText color='textSecondary'>Forks</ThemeText>
         </SingleStat>
         <SingleStat>
-          <ThemeText fontWeight='bold'>
+          <ThemeText testID='repoReviewCount' fontWeight='bold'>
             {thousandize(repository.reviewCount)}
           </ThemeText>
           <ThemeText color='textSecondary'>Reviews</ThemeText>
         </SingleStat>
         <SingleStat>
-          <ThemeText fontWeight='bold'>
+          <ThemeText testID='repoRatingAverage' fontWeight='bold'>
             {thousandize(repository.ratingAverage)}
           </ThemeText>
           <ThemeText color='textSecondary'>Rating</ThemeText>

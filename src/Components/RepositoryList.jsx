@@ -18,17 +18,10 @@ const StyledList = styled.FlatList`
   background: lightgray;
 `;
 
-const RepositoryList = () => {
-  const { repositories } = useRepositories();
-
-  // Get the nodes from the edges array
+export const RepositoryListContainer = ({ repositories }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
-
-  if (!repositories) {
-    return <span>Loading...</span>;
-  }
 
   return (
     <StyledList
@@ -38,6 +31,12 @@ const RepositoryList = () => {
       keyExtractor={(item) => item.id}
     />
   );
+};
+
+const RepositoryList = () => {
+  const { repositories } = useRepositories();
+
+  return <RepositoryListContainer repositories={repositories} />;
 };
 
 export default RepositoryList;
