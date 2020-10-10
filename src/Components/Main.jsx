@@ -5,11 +5,7 @@ import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
 import { Redirect, Route, Switch, useParams } from 'react-router-native';
 import SignIn from './SignIn';
-import RepositoryItem from './RepositoryItem';
-import { GET_REPOSITORY } from '../graphql/queries';
-import { useQuery } from '@apollo/react-hooks';
-import Text from './Text';
-import RepositorySingleItemView from './RepositorySingleItemView';
+import { RepositorySingleItemView } from './RepositorySingleItemView';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,10 +26,8 @@ const Main = () => {
         <Route path='/signin' exact>
           <SignIn />
         </Route>
-        <Route path='/:id'>
-          <RepositorySingleItemView />
-        </Route>
-        {/* <Redirect to='/' /> */}
+        <Route path='/:id' component={RepositorySingleItemView} />
+        <Redirect to='/' />
       </Switch>
     </View>
   );
