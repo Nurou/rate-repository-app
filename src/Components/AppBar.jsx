@@ -47,9 +47,18 @@ const AppBar = () => {
             <StyledText color='white'>Repositories</StyledText>
           </Link>
           {data && data?.authorizedUser ? (
-            <TouchableWithoutFeedback onPress={handleSignOut}>
-              <StyledText color='white'>Sign out</StyledText>
-            </TouchableWithoutFeedback>
+            <>
+              <TouchableWithoutFeedback onPress={handleSignOut}>
+                <StyledText color='white'>Sign out</StyledText>
+              </TouchableWithoutFeedback>
+              <Link
+                to='/create-review'
+                component={TouchableOpacity}
+                activeOpacity={0.8}
+              >
+                <StyledText color='white'>Create a review</StyledText>
+              </Link>
+            </>
           ) : (
             <Link to='/Signin' component={TouchableOpacity} activeOpacity={0.8}>
               <StyledText color='white'>Sign in</StyledText>

@@ -6,6 +6,7 @@ import AppBar from './AppBar';
 import { Redirect, Route, Switch, useParams } from 'react-router-native';
 import SignIn from './SignIn';
 import { RepositorySingleItemView } from './RepositorySingleItemView';
+import { CreateReviewContainer } from './ReviewForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +26,9 @@ const Main = () => {
         </Route>
         <Route path='/signin' exact>
           <SignIn />
+        </Route>
+        <Route path='/create-review' exact>
+          <CreateReviewContainer />
         </Route>
         <Route path='/:id' component={RepositorySingleItemView} />
         <Redirect to='/' />
