@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import * as Linking from 'expo-linking';
+import { Button, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import { Text as ThemeText } from './Text';
+import { useHistory, useParams } from 'react-router-native';
+import { useApolloClient } from '@apollo/react-hooks';
 
 const StyledAvatar = styled.Image`
   width: 50px;
@@ -50,6 +54,7 @@ const Stats = styled.View`
   justify-content: space-around;
   align-items: center;
   margin-top: 15px;
+  margin-bottom: 20px;
 `;
 
 const SingleStat = styled.View`
@@ -57,50 +62,79 @@ const SingleStat = styled.View`
   flex-direction: column;
 `;
 
+const StyledButton = styled(Button)`
+  border: 1px solid red;
+`;
+
 const thousandize = (value) => {
   return value >= 1000 ? `${Math.round(value / 100) / 10}k` : value;
 };
 
-const RepositoryItem = ({ repository }) => {
-  const { ownerAvatarUrl } = repository;
+const RepositoryItem = ({ repository, showGhLink }) => {
+  let history = useHistory();
+
+  const {
+    id,
+    ownerAvatarUrl,
+    url,
+    fullName,
+    description,
+    language,
+    stargazersCount,
+    forksCount,
+    ratingAverage,
+    reviewCount,
+  } = repository;
+
+  const onPress = () => {
+    Linking.openURL(url);
+  };
+
+  const handlePress = () => {
+    history.push(`/${id}`);
+  };
+
   return (
     <Wrapper>
-      <InfoContainerWrapper>
-        <StyledAvatar source={{ uri: ownerAvatarUrl }} />
-        <TextualInfo>
-          <RepoName testID='repoName'>{repository.fullName}</RepoName>
-          <Description testID='repoDescription'>
-            {repository.description}
-          </Description>
-          <Language testID='repoLanguage'>{repository.language}</Language>
-        </TextualInfo>
-      </InfoContainerWrapper>
-      <Stats>
-        <SingleStat>
-          <ThemeText testID='repoStars' fontWeight='bold'>
-            {thousandize(repository.stargazersCount)}
-          </ThemeText>
-          <ThemeText color='textSecondary'>Stars</ThemeText>
-        </SingleStat>
-        <SingleStat>
-          <ThemeText testID='repoForks' fontWeight='bold'>
-            {thousandize(repository.forksCount)}
-          </ThemeText>
-          <ThemeText color='textSecondary'>Forks</ThemeText>
-        </SingleStat>
-        <SingleStat>
-          <ThemeText testID='repoReviewCount' fontWeight='bold'>
-            {thousandize(repository.reviewCount)}
-          </ThemeText>
-          <ThemeText color='textSecondary'>Reviews</ThemeText>
-        </SingleStat>
-        <SingleStat>
-          <ThemeText testID='repoRatingAverage' fontWeight='bold'>
-            {thousandize(repository.ratingAverage)}
-          </ThemeText>
-          <ThemeText color='textSecondary'>Rating</ThemeText>
-        </SingleStat>
-      </Stats>
+      <TouchableOpacity onPress={handlePress}>
+        <InfoContainerWrapper>
+          <StyledAvatar source={{ uri: ownerAvatarUrl }} />
+          <TextualInfo>
+            <RepoName testID='repoName'>{fullName}</RepoName>
+            <Description testID='repoDescription'>{description}</Description>
+            <Language testID='repoLanguage'>{language}</Language>
+          </TextualInfo>
+        </InfoContainerWrapper>
+        <Stats>
+          <SingleStat>
+            <ThemeText testID='repoStars' fontWeight='bold'>
+              {thousandize(stargazersCount)}
+            </ThemeText>
+            <ThemeText color='textSecondary'>Stars</ThemeText>
+          </SingleStat>
+          <SingleStat>
+            <ThemeText testID='repoForks' fontWeight='bold'>
+              {thousandize(forksCount)}
+            </ThemeText>
+            <ThemeText color='textSecondary'>Forks</ThemeText>
+          </SingleStat>
+          <SingleStat>
+            <ThemeText testID='repoReviewCount' fontWeight='bold'>
+              {thousandize(reviewCount)}
+            </ThemeText>
+            <ThemeText color='textSecondary'>Reviews</ThemeText>
+          </SingleStat>
+          <SingleStat>
+            <ThemeText testID='repoRatingAverage' fontWeight='bold'>
+              {thousandize(ratingAverage)}
+            </ThemeText>
+            <ThemeText color='textSecondary'>Rating</ThemeText>
+          </SingleStat>
+        </Stats>
+        {showGhLink && (
+          <StyledButton title='Open in GitHub' onPress={onPress} />
+        )}
+      </TouchableOpacity>
     </Wrapper>
   );
 };

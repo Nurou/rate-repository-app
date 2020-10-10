@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const ItemSeparator = () => <View style={styles.separator} />;
-
-const renderItem = ({ item }) => <RepositoryItem repository={item} />;
-
 const StyledList = styled.FlatList`
   background: lightgray;
 `;
+
+const ItemSeparator = () => <View style={styles.separator} />;
+
+const renderItem = ({ item }) => <RepositoryItem repository={item} />;
 
 export const RepositoryListContainer = ({ repositories }) => {
   const repositoryNodes = repositories

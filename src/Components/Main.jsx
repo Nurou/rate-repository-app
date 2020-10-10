@@ -1,10 +1,15 @@
 import React from 'react';
 import Constants from 'expo-constants';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
-import { Redirect, Route, Switch } from 'react-router-native';
+import { Redirect, Route, Switch, useParams } from 'react-router-native';
 import SignIn from './SignIn';
+import RepositoryItem from './RepositoryItem';
+import { GET_REPOSITORY } from '../graphql/queries';
+import { useQuery } from '@apollo/react-hooks';
+import Text from './Text';
+import RepositorySingleItemView from './RepositorySingleItemView';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +30,10 @@ const Main = () => {
         <Route path='/signin' exact>
           <SignIn />
         </Route>
-        <Redirect to='/' />
+        <Route path='/:id'>
+          <RepositorySingleItemView />
+        </Route>
+        {/* <Redirect to='/' /> */}
       </Switch>
     </View>
   );

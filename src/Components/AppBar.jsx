@@ -37,7 +37,7 @@ const AppBar = () => {
     apolloClient.resetStore();
   };
 
-  if (loading) return <p>Loading ...</p>;
+  if (loading) return <Text>Loading ...</Text>;
 
   return (
     <>
