@@ -76,7 +76,6 @@ export const CreateReviewContainer = ({}) => {
 
   const onSubmit = async (values) => {
     const { ownerName, repositoryName, rating, text } = values;
-    console.log(values);
 
     try {
       const { data } = await createReview({

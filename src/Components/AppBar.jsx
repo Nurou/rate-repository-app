@@ -60,9 +60,22 @@ const AppBar = () => {
               </Link>
             </>
           ) : (
-            <Link to='/Signin' component={TouchableOpacity} activeOpacity={0.8}>
-              <StyledText color='white'>Sign in</StyledText>
-            </Link>
+            <>
+              <Link
+                to='/Signin'
+                component={TouchableOpacity}
+                activeOpacity={0.8}
+              >
+                <StyledText color='white'>Sign in</StyledText>
+              </Link>
+              <Link
+                to='/Signup'
+                component={TouchableOpacity}
+                activeOpacity={0.8}
+              >
+                <StyledText color='white'>Sign up</StyledText>
+              </Link>
+            </>
           )}
         </ScrollView>
       </StyledView>
