@@ -3,8 +3,16 @@ import { repoPartsFragment } from './fragements';
 
 export const GET_REPOSITORIES = gql`
   ${repoPartsFragment}
-  query {
-    repositories {
+  query getRepositories(
+    $orderBy: AllRepositoriesOrderBy
+    $orderDirection: OrderDirection
+    $searchKeyword: String
+  ) {
+    repositories(
+      orderBy: $orderBy
+      orderDirection: $orderDirection
+      searchKeyword: $searchKeyword
+    ) {
       edges {
         node {
           ...RepoParts
