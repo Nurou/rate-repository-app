@@ -4,11 +4,15 @@ import { repoPartsFragment } from './fragements';
 export const GET_REPOSITORIES = gql`
   ${repoPartsFragment}
   query getRepositories(
+    $after: String
+    $first: Int
     $orderBy: AllRepositoriesOrderBy
     $orderDirection: OrderDirection
     $searchKeyword: String
   ) {
     repositories(
+      after: $after
+      first: $first
       orderBy: $orderBy
       orderDirection: $orderDirection
       searchKeyword: $searchKeyword
@@ -17,6 +21,13 @@ export const GET_REPOSITORIES = gql`
         node {
           ...RepoParts
         }
+        cursor
+      }
+      pageInfo {
+        endCursor
+        startCursor
+        totalCount
+        hasNextPage
       }
     }
   }
@@ -24,10 +35,10 @@ export const GET_REPOSITORIES = gql`
 
 export const GET_REPOSITORY = gql`
   ${repoPartsFragment}
-  query getRepository($repoId: ID!) {
+  query getRepository($repoId: ID!, $after: String, $first: Int) {
     repository(id: $repoId) {
       ...RepoParts
-      reviews {
+      reviews(first: $first, after: $after) {
         edges {
           node {
             id
@@ -39,6 +50,13 @@ export const GET_REPOSITORY = gql`
               username
             }
           }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          totalCount
+          hasNextPage
         }
       }
     }

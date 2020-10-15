@@ -49,7 +49,7 @@ const ReviewItem = ({ review }) => {
         <Text>{rating}</Text>
       </RatingContainer>
       <Content>
-        <Text style={{ fontWeight: '700 ' }}>{username}</Text>
+        <Text style={{ fontWeight: '700' }}>{username}</Text>
         <Text style={{ opacity: 0.7 }}>{createdAt.substring(0, 10)}</Text>
         <Text>{text}</Text>
       </Content>
@@ -63,11 +63,47 @@ export const RepositorySingleItemView = () => {
   // get id from url pattern
   const { id } = useParams();
 
+  const variables = { repoId: id, first: 3 };
+
   // fetch repo based on that id
-  const { data, error, loading } = useQuery(GET_REPOSITORY, {
-    variables: { repoId: id },
+  const { data, error, loading, fetchMore } = useQuery(GET_REPOSITORY, {
+    variables,
     fetchPolicy: 'cache-and-network',
   });
+
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data && data.repository.reviews.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      query: GET_REPOSITORY,
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        const nextResult = {
+          repository: {
+            ...fetchMoreResult.repository,
+            edges: [
+              ...previousResult.repository.reviews.edges,
+              ...fetchMoreResult.repository.reviews.edges,
+            ],
+          },
+        };
+
+        return nextResult;
+      },
+    });
+  };
+
+  const onEndReach = () => {
+    handleFetchMore();
+  };
 
   if (error) {
     console.log(error);
@@ -86,6 +122,8 @@ export const RepositorySingleItemView = () => {
       ListHeaderComponent={() => (
         <RepositoryItem repository={data?.repository} showGhLink={true} />
       )}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };
