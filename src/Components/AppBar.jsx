@@ -58,6 +58,13 @@ const AppBar = () => {
               >
                 <StyledText color='white'>Create a review</StyledText>
               </Link>
+              <Link
+                to='/reviews'
+                component={TouchableOpacity}
+                activeOpacity={0.8}
+              >
+                <StyledText color='white'>My reviews</StyledText>
+              </Link>
             </>
           ) : (
             <>

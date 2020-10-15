@@ -8,6 +8,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import { RepositorySingleItemView } from './RepositorySingleItemView';
 import { CreateReviewContainer } from './ReviewForm';
+import UserReviews from './UserReviews';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +34,9 @@ const Main = () => {
         </Route>
         <Route path='/create-review' exact>
           <CreateReviewContainer />
+        </Route>
+        <Route path='/reviews' exact>
+          <UserReviews />
         </Route>
         <Route path='/:id' component={RepositorySingleItemView} />
         <Redirect to='/' />
